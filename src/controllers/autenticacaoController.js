@@ -6,14 +6,17 @@ const { gerarToken } = require('../utils/gerarToken');
 
 const autenticar = async (req, res, next) => {
     const { email, senha } = req.body;
+    console.debug("body", req.body)
 
     const [ usuario ] = await usuariosTable.where('email', email);
-    console.log(usuario);
+    
     if(!usuario) {
+        // console.log("Usuário não encontrado");
         return res.status(400).send({ error: 'Usuário não encontrado' });
     }
 
     if(!await bcrypt.compare(senha, usuario.senha)){
+        console.log("Usuário inválido");
         return res.status(400).send({ error: 'Usuário inválido' });
     }
         
@@ -25,8 +28,9 @@ const autenticar = async (req, res, next) => {
     //  sempre que autenticar o token muda
     // const token = await jwt.sign({ id: usuario.id }, autenticacaoConfig.secret, { expiresIn: 1500 });
     const token = await gerarToken({ id: usuario.id });
-
-    res.send({
+    
+    // console.log("+++++++", usuario);
+    res.status(200).send({
         usuario,
         token, 
     });

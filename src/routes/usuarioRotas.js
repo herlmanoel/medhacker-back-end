@@ -10,12 +10,13 @@ const {
 
 const autenticacaoMiddleware = require('../middleware/autenticacaoMiddleware');
 
-router.route('/usuarios')
-  .post(postUsers);
+// router.route('/usuarios')
+//   .post(postUsers);
 
-router.use(autenticacaoMiddleware);
+// router.use(autenticacaoMiddleware);
 
 router.route('/usuarios')
+  .post(postUsers)
   .get(getUsers);
 
 router.route('/usuarios/:id')

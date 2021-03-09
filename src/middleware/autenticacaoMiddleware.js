@@ -3,6 +3,7 @@ const autenticacaoConfig = require('../../config/autenticar.json');
 
 module.exports = (req, res, next) => {
     const autenticacaoHeader = req.headers.autorizacao;
+
     console.log(autenticacaoHeader);
 
     if(!autenticacaoHeader) {
