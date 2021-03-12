@@ -12,21 +12,15 @@ const postUsers = async (req, res, next) => {
     const hash = await bcrypt.hash(dados.senha, 10);
     dados.senha = hash;
 
-    const data = await usuariosTable.where('email', dados.email);
+    // const data = await usuariosTable.where('email', dados.email);
 
-    // if (data.length != 0) {
-    //   return res.status(400).json({ error: 'Email já cadastrado. Por favor, tente outro email.' });
-    // }
-
-    const result = await usuariosTable.insert(dados)
-      // .catch(err => {
-      //   console.error(err);
-      //   return res.status(400).send({ error: 'Usuário não adicionado' })
-      // });
+    const result = await usuariosTable.insert(dados).then(() => console.log("Insert"));
+    console.log(result);
+    
     return res.json({ success: true, message: 'ok' });
   } catch (error) {
     console.error(error);
-    return res.status(400).send({ error: 'Usuário não adicionado' });
+    return res.status(400).send({ error: 'Erro. Usuário não adicionado' });
   }
 }
 
@@ -40,7 +34,7 @@ const getUser = async (req, res, next) => {
   const usuarioId = req.params.id;
 
   try {
-    const [usuario] = await usuariosTable.where('id', usuarioId).returning('*');
+    const [usuario] = await usuariosTable.where('id', usuarioId);
 
     if (!usuario) {
       return res.status(401).json({ error: 'O usuário não existe no banco de dados.' });
