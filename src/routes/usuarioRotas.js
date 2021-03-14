@@ -1,14 +1,8 @@
 const router = require('express').Router();
 
-const {
-  postUsers,
-  getUsers,
-  getUser,
-  putUser,
-  deleteUser
-} = require('../controllers/usuarioController');
+const UsuarioController = require('../app/controllers/UsuarioController');
 
-const autenticacaoMiddleware = require('../middleware/autenticacaoMiddleware');
+const autenticacaoMiddleware = require('../app/middleware/autenticacaoMiddleware');
 
 // router.route('/usuarios')
 //   .post(postUsers);
@@ -16,12 +10,13 @@ const autenticacaoMiddleware = require('../middleware/autenticacaoMiddleware');
 // router.use(autenticacaoMiddleware);
 
 router.route('/usuarios')
-  .post(postUsers)
-  .get(getUsers);
+  .post(UsuarioController.postUsers)
+  .get(UsuarioController.getUsers)
+  .delete(UsuarioController.deleteUser);
 
 router.route('/usuarios/:id')
-  .get(getUser)
-  .put(putUser)
-  .delete(deleteUser);
+  .get(UsuarioController.getUser)
+  .put(UsuarioController.putUser)
+  .delete(UsuarioController.deleteUser);
 
 module.exports = router;

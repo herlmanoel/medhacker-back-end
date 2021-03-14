@@ -1,14 +1,13 @@
-const knex = require('../../database/connection');
 const bcrypt = require('bcrypt');
-const usuariosTable = knex('usuarios');
-const { gerarToken } = require('../utils/gerarToken');
+const Usuario = require('../models/Usuario');
+const { gerarToken } = require('../../utils/gerarToken');
 
 
 const autenticar = async (req, res, next) => {
     const { email, senha } = req.body;
     console.debug("body", req.body)
 
-    const [ usuario ] = await usuariosTable.where('email', email);
+    const usuario = await Usuario.findOne({ email: email});
     
     if(!usuario) {
         // console.log("Usuário não encontrado");

@@ -1,25 +1,17 @@
 const router = require('express').Router();
-const autenticacaoMiddleware = require('../middleware/autenticacaoMiddleware');
+const autenticacaoMiddleware = require('../app/middleware/autenticacaoMiddleware');
 
-const {
-  postEventos,
-  getEventos,
-  getEvento,
-  putEvento,
-  deleteEvento
-} = require('../controllers/eventoController');
+const EventoController = require('../app/controllers/EventoController');
 
 // router.use(autenticacaoMiddleware);
 
 router.route('/eventos')
-  .post(postEventos);
-
-router.route('/eventos')
-  .get(getEventos);
+  .get(EventoController.getEventos)
+  .post(EventoController.postEventos);
 
 router.route('/eventos/:id')
-  .get(getEvento)
-  .put(putEvento)
-  .delete(deleteEvento);
+  .get(EventoController.getEvento)
+  .put(EventoController.putEvento)
+  .delete(EventoController.deleteEvento);
 
 module.exports = router;

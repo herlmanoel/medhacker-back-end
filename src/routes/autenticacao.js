@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const {
     autenticar
-} = require('../controllers/autenticacaoController');
+} = require('../app/controllers/autenticacaoController');
 
 router.route('/autenticar').post(autenticar);
 

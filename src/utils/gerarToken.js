@@ -1,4 +1,4 @@
-const autenticacaoConfig = require('../../config/autenticar.json');
+const autenticacaoConfig = require('../config/autenticar.json');
 const jwt = require('jsonwebtoken');
 
 async function gerarToken(params = {}) {
