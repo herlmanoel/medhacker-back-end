@@ -15,10 +15,7 @@ module.exports = {
       codigo: {
         type: Sequelize.STRING,
       },
-      username: {
-        type: Sequelize.STRING,
-      },
-      senha: {
+      endereco: {
         type: Sequelize.STRING,
       },
       inicio: {

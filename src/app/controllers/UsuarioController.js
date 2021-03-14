@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const { gerarToken } = require('../../utils/gerarToken');
 const Database = require('../database');
 const Usuario = require('../models/Usuario');
+const UltilsModel = require('../../utils/models');
+
 
 class UsuarioController {
   postUsers = async (req, res, next) => {
@@ -9,12 +11,10 @@ class UsuarioController {
     console.log(data);
     console.log(evento);
     const user = await Usuario.create(data);
-    if(evento && evento.length > 0) {
-      const [ idEvento ] = evento;
-      const event = { id_evento: idEvento };
-      await user.addEvento(event).catch(err => console.log(err));
+    if (evento && evento.length > 0) {
+      UltilsModel(evento, user);
     }
-    console.log(Date.now());
+
     return res.json(user);
   }
 

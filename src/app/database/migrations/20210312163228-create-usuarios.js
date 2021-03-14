@@ -21,6 +21,9 @@ module.exports = {
       permissao: {
         type: Sequelize.STRING,
       },
+      img_perfil: {
+        type: Sequelize.STRING,
+      },
       created_at: {
         type: Sequelize.DATE,
       },

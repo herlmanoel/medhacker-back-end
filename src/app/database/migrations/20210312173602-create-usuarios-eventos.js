@@ -9,14 +9,14 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      id_usuario: {
-        type: Sequelize.INTEGER,
-        references: { model: 'usuarios', key: 'id' },
-        onDelete: 'CASCADE',
-      },
       id_evento: {
         type: Sequelize.INTEGER,
         references: { model: 'eventos', key: 'id' },
+        onDelete: 'CASCADE',
+      },
+      id_usuario: {
+        type: Sequelize.INTEGER,
+        references: { model: 'usuarios', key: 'id' },
         onDelete: 'CASCADE',
       },
       created_at: {

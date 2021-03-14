@@ -14,9 +14,6 @@ class EventoController {
         console.log(err);
         res.json({ error: 'erro' });
       });
-
-      evento.addUsuario(10).catch(err => console.log(err));
-
     return res.status(200).json(evento);
   }
 

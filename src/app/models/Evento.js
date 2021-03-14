@@ -5,8 +5,7 @@ class Evento extends Sequelize.Model {
         super.init({
             titulo: Sequelize.STRING,
             codigo: Sequelize.STRING,
-            username: Sequelize.STRING,
-            senha: Sequelize.STRING,
+            endereco: Sequelize.STRING,
             logo: Sequelize.STRING,
             inicio: Sequelize.DATE,
             fim: Sequelize.DATE,
