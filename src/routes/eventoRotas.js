@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const autenticacaoMiddleware = require('../app/middleware/autenticacaoMiddleware');
+// const autenticacaoMiddleware = require('../app/middleware/autenticacaoMiddleware');
 
 const EventoController = require('../app/controllers/EventoController');
 
@@ -7,7 +7,9 @@ const EventoController = require('../app/controllers/EventoController');
 
 router.route('/eventos')
   .get(EventoController.getEventos)
-  .post(EventoController.postEventos);
+  .post(EventoController.postEventos)
+  .delete(EventoController.deleteEvento)
+  .put(EventoController.putEvento);
 
 router.route('/eventos/:id')
   .get(EventoController.getEvento)

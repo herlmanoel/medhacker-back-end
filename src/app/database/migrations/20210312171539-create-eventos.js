@@ -18,6 +18,9 @@ module.exports = {
       endereco: {
         type: Sequelize.STRING,
       },
+      descricao: {
+        type: Sequelize.STRING,
+      },
       inicio: {
         type: Sequelize.DATE,
       },

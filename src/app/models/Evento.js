@@ -6,6 +6,7 @@ class Evento extends Sequelize.Model {
             titulo: Sequelize.STRING,
             codigo: Sequelize.STRING,
             endereco: Sequelize.STRING,
+            descricao: Sequelize.STRING,
             logo: Sequelize.STRING,
             inicio: Sequelize.DATE,
             fim: Sequelize.DATE,

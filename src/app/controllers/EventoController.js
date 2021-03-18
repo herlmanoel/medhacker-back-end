@@ -37,21 +37,23 @@ class EventoController {
   putEvento = async (req, res, next) => {
     const eventoId = req.params.id;
     let props = req.body;
-
+    console.log(props);
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     try {
-      const evento = await Evento.findOne({ id: eventoId });
-      evento.nome = props.nome;
+      const evento = await Evento.findByPk(eventoId);
+      
+      evento.titulo = props.titulo;
       evento.endereco = props.endereco;
       evento.logo = props.logo;
       evento.inicio = props.inicio;
       evento.fim = props.fim;
-
-      props.updated_at = Date.now();
-
-      evento.save();
-      return res.status(200).json(evento);
+      await evento.save();
+      return res.status(200).json({ ok: true });
     } catch (error) {
-      return res.status(401).json({ error: 'Erro ao alterar.' });
+      console.log(error)
+      return res.status(400).json({ error: 'Erro ao alterar.' });
     }
   }
 

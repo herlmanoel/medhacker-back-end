@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const { gerarToken } = require('../../utils/gerarToken');
 const Database = require('../database');
 const Usuario = require('../models/Usuario');
+const Evento = require('../models/Evento');
 const UltilsModel = require('../../utils/models');
 
 
@@ -15,7 +16,7 @@ class UsuarioController {
       UltilsModel(evento, user);
     }
 
-    return res.json(user);
+    return res.status(200).json(user);
   }
 
   getUsers = async (req, res, next) => {
@@ -25,12 +26,21 @@ class UsuarioController {
 
   getUser = async (req, res, next) => {
     const usuarioId = req.params.id;
-
     try {
-      const user = await Usuario.findOne({ id: usuarioId });
-
-      user.senha = undefined;
-      return res.status(200).json(user);
+      // const user = await Usuario.findOne({ where: { id: 1 },
+      //   include: [
+      //     { model: Evento, as: 'evento', foreignKey: 'id_evento' }
+      //   ]
+      // }).catch(err => console.log(err));
+      // const e = await user.getEvento().catch(err => console.log(err));
+      // console.log(e);
+      // user.senha = undefined;
+      // return res.status(200).json(user);
+      await Usuario.findAll({ include: { model: Evento, as: 'evento' } })
+        .then(result => console.log(result))
+        .catch(err => console.log(err));
+      console.log('----------------------');
+      return res.status(200).json({ ok: true });
     } catch (error) {
       return res.status(401).json({ error: 'Erro ao buscar usuário no banco de dados.' });
     }
@@ -38,17 +48,22 @@ class UsuarioController {
 
   putUser = async (req, res, next) => {
     const usuarioId = req.params.id;
+    const eventoId = req.params.evento;
     let props = req.body;
+    console.log(props);
 
     try {
       const user = await Usuario.findOne({ id: usuarioId });
+
       user.nome = props.nome;
       user.senha = props.senha;
       user.email = props.email;
       user.permissao = props.permissao;
       props.updated_at = Date.now();
 
-      user.save();
+      user.setEvento();
+      console.log(user);
+      // user.save();
       return res.status(200).json(user);
     } catch (error) {
       return res.status(401).json({ error: 'Erro ao alterar.' });
