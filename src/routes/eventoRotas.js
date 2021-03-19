@@ -10,6 +10,9 @@ router.route('/eventos')
   .post(EventoController.postEventos)
   .delete(EventoController.deleteEvento)
   .put(EventoController.putEvento);
+  
+  router.route('/eventospelotitulo/:campo')
+  .get(EventoController.getEventosByTitulo)
 
 router.route('/eventos/:id')
   .get(EventoController.getEvento)

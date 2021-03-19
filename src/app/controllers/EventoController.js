@@ -2,6 +2,7 @@ const Database = require('../database');
 const Evento = require('../models/Evento');
 const bcrypt = require('bcrypt');
 const { gerarToken } = require('../../utils/gerarToken');
+const { QueryTypes, Op } = require('sequelize');
 
 class EventoController {
 
@@ -38,9 +39,10 @@ class EventoController {
     const eventoId = req.params.id;
     let props = req.body;
     console.log(props);
+
     try {
       const evento = await Evento.findByPk(eventoId);
-      
+
       evento.titulo = props.titulo;
       evento.endereco = props.endereco;
       evento.logo = props.logo;
@@ -63,6 +65,25 @@ class EventoController {
     } catch (error) {
       return res.status(401).json({ error: 'Erro ao deletar.' });
     }
+  }
+
+  getEventosByTitulo = async (req, res, next) => {
+    const pesquisa = req.params.campo;
+    try {
+      const users = await Evento.findAll({
+        where: {
+          titulo: {
+            [Op.like]: `%${pesquisa}%`,
+          }
+        },
+      })
+        .catch(err => console.log(err));
+      return res.status(200).json(users);
+    } catch (error) {
+      console.log(error);
+      return res.status(401).json({ erro: 'Erro ao buscar evento pelo título.' });
+    }
+
   }
 }
 

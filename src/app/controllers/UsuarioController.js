@@ -96,6 +96,7 @@ class UsuarioController {
 
   getUsersByName = async (req, res, next) => {
     const pesquisa = req.params.campo;
+
     const users = await Usuario.findAll({
       where: {
         nome: {

@@ -15,12 +15,12 @@ router.route('/usuarios')
   .delete(UsuarioController.deleteUser)
   .put(UsuarioController.putUser)
 
-  router.route('/usuariospesquisa/:campo')
-  .get(UsuarioController.getUsersByName);
-
 router.route('/usuarios/:id')
   .get(UsuarioController.getUser)
   .put(UsuarioController.putUser)
   .delete(UsuarioController.deleteUser);
+
+  router.route('/usuariospesquisa/:campo')
+  .get(UsuarioController.getUsersByName);
 
 module.exports = router;
