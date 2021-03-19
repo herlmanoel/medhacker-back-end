@@ -38,9 +38,6 @@ class EventoController {
     const eventoId = req.params.id;
     let props = req.body;
     console.log(props);
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     try {
       const evento = await Evento.findByPk(eventoId);
       
