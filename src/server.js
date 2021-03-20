@@ -24,4 +24,4 @@ app.get('/ola', (req, res) => {
     return res.send("Ola");
 })
 
-app.listen(3333, () => console.log('Servidor rodando'));
+app.listen(process.env.PORT || 3333, () => console.log('Servidor rodando'));
