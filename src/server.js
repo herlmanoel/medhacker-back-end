@@ -23,5 +23,6 @@ app.use('/', routes);
 app.get('/ola', (req, res) => {
     return res.send("Ola");
 })
+const port = process.env.PORT || 3333;
 
-app.listen(process.env.PORT || 3333, () => console.log('Servidor rodando'));
+app.listen(port, () => console.log('Servidor rodando'));
