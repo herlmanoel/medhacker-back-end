@@ -20,7 +20,7 @@ const routes = [
 
 app.use('/', routes);
 
-app.get('/', (req, res) => {
+app.get('/ola', (req, res) => {
     return res.send("Ola");
 })
 
