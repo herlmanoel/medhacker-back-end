@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('./app/database');
 
 const app = express();
 app.use(express.json());
@@ -11,13 +12,14 @@ app.use(async (req, res, next) => {
     return next();
 });
 
-// const routes = [
-//     require('./routes/eventoRotas'),
-//     require('./routes/usuarioRotas'),
-//     require('./routes/autenticacao'),
-// ];
+const routes = [
+    require('./routes/eventoRotas'),
+    require('./routes/usuarioRotas'),
+    require('./routes/autenticacao'),
+];
 
-// app.use('/', routes);
+app.use('/', routes);
+
 
 app.get('/ola', (req, res) => {
     return res.send("Ola");
