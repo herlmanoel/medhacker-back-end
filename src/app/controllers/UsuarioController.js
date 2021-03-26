@@ -7,16 +7,27 @@ const UltilsModel = require('../../utils/models');
 const { QueryTypes, Op } = require('sequelize');
 
 class UsuarioController {
+
   postUsers = async (req, res, next) => {
     const { evento, ...data } = req.body;
     console.log(data);
     console.log(evento);
-    const user = await Usuario.create(data);
-    if (evento && evento.length > 0) {
-      UltilsModel(evento, user);
-    }
 
-    return res.status(200).json(user);
+    try {
+      const hash = await bcrypt.hash(data.senha, 10);
+      data.senha = hash;
+
+      const user = await Usuario.create(data);
+      if (evento && evento.length > 0) {
+        UltilsModel(evento, user);
+      }
+      const token = gerarToken({ id: data.id });
+
+      return res.status(200).json({ user, token });
+    } catch (error) {
+      console.log(error);
+      return res.status(400).json({ mensage: 'Erro ao adicionar usuário.' });
+    }
   }
 
   getUsers = async (req, res, next) => {
@@ -57,9 +68,9 @@ class UsuarioController {
         + usuarioId, { type: QueryTypes.SELECT });
       const IdsEventosUsuarios = eventosUsuariosIds[0].id;
       user.evento = IdsEventosUsuarios;
-      console.log("--------> "+IdsEventosUsuarios);
+      console.log("--------> " + IdsEventosUsuarios);
       console.log(eventosUsuariosIds)
-      const sqlUpdate ='UPDATE `usuarios_eventos` SET `id_evento`='+evento+',`id_usuario`='+usuarioId+' WHERE `id`= '+IdsEventosUsuarios+'';
+      const sqlUpdate = 'UPDATE `usuarios_eventos` SET `id_evento`=' + evento + ',`id_usuario`=' + usuarioId + ' WHERE `id`= ' + IdsEventosUsuarios + '';
       console.log(sqlUpdate);
       await Usuario.sequelize.query(sqlUpdate, { type: QueryTypes.UPDATE });
 
@@ -104,7 +115,7 @@ class UsuarioController {
         }
       },
     })
-    .catch(err => console.log(err));
+      .catch(err => console.log(err));
     // console.log(users);
     return res.status(200).json(users);
   }
