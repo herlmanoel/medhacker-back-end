@@ -35,6 +35,22 @@ class UsuarioController {
     return res.status(200).json(users);
   }
 
+  getUsersWhitLimitAndOffset = async (req, res, next) => {
+    const limit = parseInt(req.params.limit);
+    const offset = parseInt(req.params.offset);
+    console.log(offset)
+    const users = await Usuario.findAndCountAll({ 
+      offset,
+      limit 
+    });
+    console.log(users);
+    const response = {
+      count: users.count,
+      users: users.rows
+    }
+    return res.status(200).json(response);
+  }
+
   getUser = async (req, res, next) => {
     const usuarioId = req.params.id;
     try {

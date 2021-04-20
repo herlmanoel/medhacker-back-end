@@ -2,10 +2,10 @@ const Sequelize = require('sequelize');
 
 const Usuario = require('../models/Usuario');
 const Evento = require('../models/Evento');
-
+const Grupo = require('../models/Grupo');
 const dbconfig = require('../../config/database');
 
-const models = [ Usuario, Evento ];
+const models = [ Usuario, Evento, Grupo ];
 
 class Database {
     constructor() {

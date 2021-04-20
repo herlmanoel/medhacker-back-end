@@ -8,7 +8,7 @@ const autenticacaoMiddleware = require('../app/middleware/autenticacaoMiddleware
 router.route('/usuarios')
   .post(UsuarioController.postUsers);
 
-router.use(autenticacaoMiddleware);
+// router.use(autenticacaoMiddleware);
 
 router.route('/usuarios')
   .get(UsuarioController.getUsers)
@@ -22,5 +22,8 @@ router.route('/usuarios/:id')
 
 router.route('/usuariospesquisa/:campo')
   .get(UsuarioController.getUsersByName);
+
+router.route('/usuarioslimit/:limit/:offset')
+  .get(UsuarioController.getUsersWhitLimitAndOffset);
 
 module.exports = router;

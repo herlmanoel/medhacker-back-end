@@ -20,6 +20,11 @@ class Evento extends Sequelize.Model {
             as: 'usuario',
             foreignKey: 'id_usuario'
         });
+        this.belongsToMany(models.Grupo, {
+            through: 'grupos',
+            as: 'grupo',
+            foreignKey: 'id_grupo'
+        });
     }
 }
 
