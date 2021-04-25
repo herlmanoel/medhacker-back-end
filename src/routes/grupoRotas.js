@@ -20,4 +20,7 @@ router.route('/grupos/:id')
   .put(GrupoController.putGrupo)
   .delete(GrupoController.deleteGrupo);
 
+  router.route('/gruposlimit/:id/:limit/:offset')
+  .get(GrupoController.getGruposByEventoIdWhitLimitAndOffset);
+
 module.exports = router;

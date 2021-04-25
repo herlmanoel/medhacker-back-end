@@ -105,6 +105,25 @@ class GrupoController {
     }
 
   }
+
+  getGruposByEventoIdWhitLimitAndOffset = async (req, res, next) => {
+    const eventoId = req.params.id;
+    const limit = parseInt(req.params.limit);
+    const offset = parseInt(req.params.offset);
+
+    const group = await Grupo.findAndCountAll({
+      offset,
+      limit,
+      where: { id_evento: eventoId }
+    });
+
+    const response = {
+      count: group.count,
+      groups: group.rows
+    }
+
+    return res.status(200).json(response);
+  }
 }
 
 module.exports = new GrupoController;

@@ -85,6 +85,21 @@ class EventoController {
     }
 
   }
+
+  getEventsWhitLimitAndOffset = async (req, res, next) => {
+    const limit = parseInt(req.params.limit);
+    const offset = parseInt(req.params.offset);
+    const events = await Evento.findAndCountAll({ 
+      offset,
+      limit 
+    });    
+    const response = {
+      count: events.count,
+      events: events.rows
+    }
+
+    return res.status(200).json(response);
+  }
 }
 
 module.exports = new EventoController;

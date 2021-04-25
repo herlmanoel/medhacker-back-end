@@ -21,4 +21,8 @@ router.route('/eventos/:id')
   .put(EventoController.putEvento)
   .delete(EventoController.deleteEvento);
 
+router.route('/eventoslimit/:limit/:offset')
+  .get(EventoController.getEventsWhitLimitAndOffset);
+
+
 module.exports = router;
