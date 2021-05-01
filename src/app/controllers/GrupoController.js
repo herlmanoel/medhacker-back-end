@@ -7,7 +7,7 @@ class GrupoController {
 
   postGrupo = async (req, res, next) => {
     const dados = req.body;
-
+    console.log(dados);
     try {
       const hash = await bcrypt.hash(dados.senha, 10);
       dados.senha = hash;

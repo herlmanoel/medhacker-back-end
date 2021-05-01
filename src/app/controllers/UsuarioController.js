@@ -38,12 +38,12 @@ class UsuarioController {
   getUsersWhitLimitAndOffset = async (req, res, next) => {
     const limit = parseInt(req.params.limit);
     const offset = parseInt(req.params.offset);
-    console.log(offset)
+    
     const users = await Usuario.findAndCountAll({ 
       offset,
       limit 
     });
-    console.log(users);
+    
     const response = {
       count: users.count,
       users: users.rows
