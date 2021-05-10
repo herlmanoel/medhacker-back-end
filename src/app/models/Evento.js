@@ -10,6 +10,9 @@ class Evento extends Sequelize.Model {
             logo: Sequelize.STRING,
             inicio: Sequelize.DATE,
             fim: Sequelize.DATE,
+            
+            inicio_inscricao: Sequelize.DATE,
+            fim_inscricao: Sequelize.DATE,
         }, { sequelize });
         return this;
     }
