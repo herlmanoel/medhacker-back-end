@@ -24,5 +24,10 @@ router.route('/eventos/:id')
 router.route('/eventoslimit/:limit/:offset')
   .get(EventoController.getEventsWhitLimitAndOffset);
 
+  router.route('/eventosinscabertas')
+    .get(EventoController.getOpenRegistrationEvents);
+  
+    router.route('/eventosseminscabertas')
+    .get(EventoController.getNotOpenRegistrationEvents);
 
 module.exports = router;

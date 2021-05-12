@@ -25,9 +25,9 @@ class EventoController {
 
   getEvento = async (req, res, next) => {
     const eventoId = req.params.id;
-
+    console.log(eventoId);
     try {
-      const evento = await Evento.findOne({ id: eventoId });
+      const evento = await Evento.findByPk(eventoId);
       evento.senha = undefined;
       return res.status(200).json(evento);
     } catch (error) {
@@ -89,10 +89,10 @@ class EventoController {
   getEventsWhitLimitAndOffset = async (req, res, next) => {
     const limit = parseInt(req.params.limit);
     const offset = parseInt(req.params.offset);
-    const events = await Evento.findAndCountAll({ 
+    const events = await Evento.findAndCountAll({
       offset,
-      limit 
-    });    
+      limit
+    });
     const response = {
       count: events.count,
       events: events.rows
@@ -100,6 +100,99 @@ class EventoController {
 
     return res.status(200).json(response);
   }
+
+  getOpenRegistrationEvents = async (req, res, next) => {
+    try {
+      const eventos = await Evento.findAll().catch(err => console.log(err));
+      console.log(eventos);
+
+      const dateCurrente = Date.now();
+      const today = new Date(dateCurrente);
+
+      const todayDay = parseInt(today.getDay());
+      const todayMonth = parseInt(today.getMonth());
+      const todayYear = parseInt(today.getFullYear());
+
+      const eventosIA = eventos.filter((item) => {
+
+        if (item.fim_inscricao && item.fim_inscricao) {
+          const inicioInsc = new Date(item.inicio_inscricao);
+          const inicioInscDay = parseInt(inicioInsc.getDay());
+          const inicioInscMonth = parseInt(inicioInsc.getMonth());
+          const inicioInscYear = parseInt(inicioInsc.getFullYear());
+
+          const fimInsc = new Date(item.fim_inscricao);
+          const fimInscDay = parseInt(fimInsc.getDay());
+          const fimInscMonth = parseInt(fimInsc.getMonth());
+          const fimInscYear = parseInt(fimInsc.getFullYear());
+
+          const dia = inicioInscDay <= todayDay && fimInscDay >= todayDay;
+          const ano = inicioInscYear <= todayYear && fimInscYear >= todayYear;
+          const mes = inicioInscMonth <= todayMonth && fimInscMonth >= todayMonth;
+
+          if (dia && mes && ano) {
+            return true;
+          }
+        }
+        return false;
+      });
+      console.log(eventosIA);
+
+      // console.log(eventos_insc_abertas);
+      // console.log(today.getFullYear());
+      return res.status(200).json({ eventosIA });
+    } catch (error) {
+      console.log(error);
+      return res.status(401).json({ erro: 'Erro ao buscar eventos com inscrições abertas.' });
+    }
+  }
+
+  getNotOpenRegistrationEvents = async (req, res, next) => {
+    try {
+      const eventos = await Evento.findAll().catch(err => console.log(err));
+      console.log(eventos);
+
+      const dateCurrente = Date.now();
+      const today = new Date(dateCurrente);
+
+      const todayDay = parseInt(today.getDay());
+      const todayMonth = parseInt(today.getMonth());
+      const todayYear = parseInt(today.getFullYear());
+
+      const eventosIA = eventos.filter((item) => {
+
+        if (item.fim_inscricao && item.fim_inscricao) {
+          const inicioInsc = new Date(item.inicio_inscricao);
+          const inicioInscDay = parseInt(inicioInsc.getDay());
+          const inicioInscMonth = parseInt(inicioInsc.getMonth());
+          const inicioInscYear = parseInt(inicioInsc.getFullYear());
+
+          const fimInsc = new Date(item.fim_inscricao);
+          const fimInscDay = parseInt(fimInsc.getDay());
+          const fimInscMonth = parseInt(fimInsc.getMonth());
+          const fimInscYear = parseInt(fimInsc.getFullYear());
+
+          const dia = inicioInscDay <= todayDay && fimInscDay >= todayDay;
+          const ano = inicioInscYear <= todayYear && fimInscYear >= todayYear;
+          const mes = inicioInscMonth <= todayMonth && fimInscMonth >= todayMonth;
+
+          if (!(dia && mes && ano)) {
+            return true;
+          }
+        }
+        return false;
+      });
+      console.log(eventosIA);
+
+      // console.log(eventos_insc_abertas);
+      // console.log(today.getFullYear());
+      return res.status(200).json({ eventosIA });
+    } catch (error) {
+      console.log(error);
+      return res.status(401).json({ erro: 'Erro ao buscar eventos com inscrições abertas.' });
+    }
+  }
+
 }
 
 module.exports = new EventoController;
