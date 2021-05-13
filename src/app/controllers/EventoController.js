@@ -3,6 +3,7 @@ const Evento = require('../models/Evento');
 const bcrypt = require('bcrypt');
 const { gerarToken } = require('../../utils/gerarToken');
 const { QueryTypes, Op } = require('sequelize');
+const { FormatttingDates } = require('../../utils/formattingDates');
 
 class EventoController {
 
@@ -59,7 +60,7 @@ class EventoController {
   deleteEvento = async (req, res, next) => {
     const eventoId = req.params.id;
     try {
-      const user = await Evento.findOne({ id: eventoId });
+      const user = await Evento.findByPk(eventoId);
       await user.destroy();
       res.status(200).json({ mensage: 'Usuário deletado.' });
     } catch (error) {
@@ -104,42 +105,19 @@ class EventoController {
   getOpenRegistrationEvents = async (req, res, next) => {
     try {
       const eventos = await Evento.findAll().catch(err => console.log(err));
-      console.log(eventos);
 
-      const dateCurrente = Date.now();
-      const today = new Date(dateCurrente);
+      const dataAtual = new Date(Date.now());
 
-      const todayDay = parseInt(today.getDay());
-      const todayMonth = parseInt(today.getMonth());
-      const todayYear = parseInt(today.getFullYear());
-
-      const eventosIA = eventos.filter((item) => {
-
-        if (item.fim_inscricao && item.fim_inscricao) {
-          const inicioInsc = new Date(item.inicio_inscricao);
-          const inicioInscDay = parseInt(inicioInsc.getDay());
-          const inicioInscMonth = parseInt(inicioInsc.getMonth());
-          const inicioInscYear = parseInt(inicioInsc.getFullYear());
-
-          const fimInsc = new Date(item.fim_inscricao);
-          const fimInscDay = parseInt(fimInsc.getDay());
-          const fimInscMonth = parseInt(fimInsc.getMonth());
-          const fimInscYear = parseInt(fimInsc.getFullYear());
-
-          const dia = inicioInscDay <= todayDay && fimInscDay >= todayDay;
-          const ano = inicioInscYear <= todayYear && fimInscYear >= todayYear;
-          const mes = inicioInscMonth <= todayMonth && fimInscMonth >= todayMonth;
-
-          if (dia && mes && ano) {
-            return true;
-          }
+      const eventosIA = eventos.filter(item => {
+        const existeFimIncioInscricao = item.fim_inscricao && item.fim_inscricao;
+        if (existeFimIncioInscricao) {
+          const inicioInscricao = new Date(item.inicio_inscricao);
+          const fimInscricao = new Date(item.fim_inscricao);
+          const estaEntre = inicioInscricao <= dataAtual && fimInscricao >= dataAtual;
+          if (estaEntre) return true;
         }
         return false;
       });
-      console.log(eventosIA);
-
-      // console.log(eventos_insc_abertas);
-      // console.log(today.getFullYear());
       return res.status(200).json({ eventosIA });
     } catch (error) {
       console.log(error);
