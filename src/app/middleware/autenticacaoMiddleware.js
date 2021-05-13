@@ -2,33 +2,33 @@ const jwt = require('jsonwebtoken');
 const autenticacaoConfig = require('../../config/autenticar.json');
 
 module.exports = (req, res, next) => {
-    next();
+    // next();
 
-    // const autenticacaoHeader = req.headers.authorization;
+    const autenticacaoHeader = req.headers.authorization;
 
-    // if (!autenticacaoHeader) {
-    //     return res.status(401).send({ error: 'Usuário não autorizado. Token não foi informado' })
-    // }
+    if (!autenticacaoHeader) {
+        return res.status(401).send({ error: 'Usuário não autorizado. Token não foi informado' })
+    }
 
-    // const partes = autenticacaoHeader.split(' ');
+    const partes = autenticacaoHeader.split(' ');
 
-    // if (!partes.length == 2) {
-    //     return res.status(401).send({ error: 'Token inválido' });
-    // }
-    // // npx sequelize-cli migration:create --name modify_eventos_add_new_fields
+    if (!partes.length == 2) {
+        return res.status(401).send({ error: 'Token inválido' });
+    }
+    // npx sequelize-cli migration:create --name modify_eventos_add_new_fields
 
 
-    // const [scheme, token] = partes;
+    const [scheme, token] = partes;
 
-    // if (!/^Bearer$/i) {
-    //     return res.status(401).send({ error: 'Token mal formatado' });
-    // }
+    if (!/^Bearer$/i) {
+        return res.status(401).send({ error: 'Token mal formatado' });
+    }
 
-    // jwt.verify(token, autenticacaoConfig.secret, (err, decoded) => {
-    //     if (err) {
-    //         return res.status(401).send({ error: 'Token inválido jwt' });
-    //     }
-    //     res.userId = decoded.id;
-    //     return next();
-    // });
+    jwt.verify(token, autenticacaoConfig.secret, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({ error: 'Token inválido jwt' });
+        }
+        res.userId = decoded.id;
+        return next();
+    });
 }
