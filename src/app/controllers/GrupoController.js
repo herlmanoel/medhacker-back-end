@@ -2,17 +2,19 @@ const Database = require('../database');
 const Grupo = require('../models/Grupo');
 const bcrypt = require('bcrypt');
 const { QueryTypes, Op } = require('sequelize');
-
+const { gerarSenha } = require('../../utils/gerarSenha');
 class GrupoController {
 
   postGrupo = async (req, res, next) => {
-    const dados = req.body;
-    console.log(dados);
-    try {
-      const hash = await bcrypt.hash(dados.senha, 10);
-      dados.senha = hash;
+    const dataGroupSave = req.body;
+    dataGroupSave.senha = gerarSenha();
 
-      const grupo = await Grupo.create(dados)
+    const dataGroup = dataGroupSave;
+    try {
+      const hash = await bcrypt.hash(dataGroupSave.senha, 10);
+      dataGroupSave.senha = hash;
+
+      const grupo = await Grupo.create(dataGroupSave)
         .catch(err => {
           console.log(err);
           res.json({ error: 'erro' });
@@ -66,6 +68,7 @@ class GrupoController {
       grupo.senha = data.senha;
       grupo.username = data.username;
       grupo.descricao = data.descricao;
+      grupo.logo = data.logo;
 
       await grupo.save();
       return res.status(200).json({ message: 'Grupo alterado.' });

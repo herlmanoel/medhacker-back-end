@@ -155,3 +155,4 @@ class UsuarioController {
 }
 
 module.exports = new UsuarioController();
+// npx sequelize  migration:generate --name add-property-logo-group
