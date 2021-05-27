@@ -1,4 +1,4 @@
-export const gerarSenha = (tamanho = 10) => {
+const gerarSenha = (tamanho = 10) => {
     let password = "";
   
     do {
@@ -9,3 +9,4 @@ export const gerarSenha = (tamanho = 10) => {
   
     return password;
   }
+  module.exports = { gerarSenha };
