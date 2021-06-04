@@ -25,6 +25,7 @@ const routes = [
   require("./routes/usuarioRotas"),
   require("./routes/eventoRotas"),
   require("./routes/grupoRotas"),
+  require("./routes/componentesRotas"),
 ];
 
 app.use("/", routes);
