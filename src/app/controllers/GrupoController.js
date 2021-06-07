@@ -80,8 +80,9 @@ class GrupoController {
 
   deleteGrupo = async (req, res, next) => {
     const grupoId = req.params.id;
+    console.log(grupoId);
     try {
-      const grupo = await Grupo.findOne({ id: grupoId });
+      const grupo = await Grupo.findByPk(grupoId);
       await grupo.destroy();
       res.status(200).json({ message: 'Grupo deletado.' });
     } catch (error) {
